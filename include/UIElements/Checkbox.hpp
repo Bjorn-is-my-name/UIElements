@@ -15,13 +15,23 @@ namespace uie
 
 		bool selected = false;
 		sf::Color selectedColor = sf::Color(0, 160, 255);
-		sf::Color deselectedColor = sf::Color::White;
+		sf::Color deselectedColor = sf::Color::Transparent;
 		unsigned int textDistance = 20;
 		Alignment alignment = Left;
 
 		void checkAlignment();
 
 	public:
+		struct Attributes
+		{
+			bool selected = false;
+			const sf::Color& selectedColor = sf::Color(0, 160, 255);
+			const sf::Color& deselectedColor = sf::Color::Transparent;
+			Alignment textAlignment = Left;
+			unsigned int textDistance = 20;
+			const RoundedRectangle::Attributes& rectangleAttributes{ .fillColor = deselectedColor, .outlineThickness = 1.0f };
+			const Text::Attributes& textAttributes;
+		};
 
 		/*------------------------------*/
 		/*          Functional          */
@@ -31,7 +41,10 @@ namespace uie
 		Checkbox(const sf::Vector2f& position, const sf::Vector2f& size);
 		Checkbox(const sf::FloatRect& rect);
 		Checkbox(const sf::Vector2f& position, const sf::Vector2f& size, const sf::String& text, unsigned int characterSize, const sf::Font& font);
+		Checkbox(const sf::Vector2f& position, const sf::Vector2f& size, const sf::String& text, unsigned int characterSize, const sf::Font& font, const Attributes& attributes);
 		Checkbox(const sf::FloatRect& rect, const sf::String& text, unsigned int characterSize, const sf::Font& font);
+		Checkbox(const sf::FloatRect& rect, const sf::String& text, unsigned int characterSize, const sf::Font& font, const Attributes& attributes);
+		void setAttributes(const Attributes& attributes);
 		RoundedRectangle& const getRectangle();
 		void setRectangle(const RoundedRectangle& rect);
 		Text& const getText();

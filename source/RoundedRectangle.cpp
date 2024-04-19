@@ -11,10 +11,33 @@ namespace uie
 		rectangle.setCornerPointCount(20);
 	}
 
+	RoundedRectangle::RoundedRectangle(const sf::Vector2f& position, const sf::Vector2f& size, const Attributes& attributes)
+		: RoundedRectangle(position, size)
+	{
+		setAttributes(attributes);
+	}
+
 	RoundedRectangle::RoundedRectangle(const sf::FloatRect& rect)
 		: RoundedRectangle(rect.getPosition(), rect.getSize())
 	{
 
+	}
+
+	RoundedRectangle::RoundedRectangle(const sf::FloatRect& rect, const Attributes& attributes)
+		: RoundedRectangle(rect.getPosition(), rect.getSize(), attributes)
+	{
+
+	}
+
+	void RoundedRectangle::setAttributes(const Attributes& attributes)
+	{
+		setCornersRadius(attributes.cornerRadius);
+		setCornerPointCount(attributes.cornerPointCount);
+		setTexture(attributes.texture);
+		setTextureRect(attributes.textureRect);
+		setFillColor(attributes.fillColor);
+		setOutlineColor(attributes.outlineColor);
+		setOutlineThickness(attributes.outlineThickness);
 	}
 
 	sf::FloatRect RoundedRectangle::getLocalBounds() const

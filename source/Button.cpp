@@ -23,10 +23,31 @@ namespace uie
 		correctTextPosition();
 	}
 
+	Button::Button(const sf::Vector2f& position, const sf::Vector2f& size, const sf::String& txt, unsigned int characterSize, const sf::Font& font, const Attributes& attributes)
+		: Button(position, size)
+	{
+		text = Text(position, txt, characterSize, font);
+		setAttributes(attributes);
+		correctTextPosition();
+	}
+
 	Button::Button(const sf::FloatRect& rect, const sf::String& txt, unsigned int characterSize, const sf::Font& font)
 		: Button(rect.getPosition(), rect.getSize(), txt, characterSize, font)
 	{
 
+	}
+
+	Button::Button(const sf::FloatRect& rect, const sf::String& txt, unsigned int characterSize, const sf::Font& font, const Attributes& attributes)
+		: Button(rect.getPosition(), rect.getSize(), txt, characterSize, font, attributes)
+	{
+		
+	}
+
+	void Button::setAttributes(const Attributes& attributes)
+	{
+		setOnClick(attributes.onClick);
+		rectangle.setAttributes(attributes.rectangleAttributes);
+		text.setAttributes(attributes.textAttributes);
 	}
 
 	RoundedRectangle& const Button::getRectangle()
@@ -129,7 +150,7 @@ namespace uie
 		text.setPosition({
 			(rectBounds.left + rectBounds.width / 2.0f) - textBounds.width / 2.0f,
 			(rectBounds.top + rectBounds.height / 2.0f) - textBounds.height / 2.0f
-			});
+		});
 	}
 
 	void Button::setString(const sf::String& string)

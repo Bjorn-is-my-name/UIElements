@@ -10,8 +10,6 @@ class App
 private:
 	sf::RenderWindow window;
 	sf::Font font;
-
-	/*
 	RoundedRectangle r;
 	RoundedRectangle r2;
 	Text t;
@@ -19,9 +17,7 @@ private:
 	Checkbox cb;
 	Container<Text> c;
 	LineLayout<> l;
-	*/
 
-	Button btn;
 
 	void run();
 	void handleEvents();

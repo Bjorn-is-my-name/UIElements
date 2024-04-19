@@ -11,6 +11,23 @@ namespace uie
 		setPosition(position);
 	}
 
+	Text::Text(const sf::Vector2f& position, const sf::String& text, unsigned int characterSize, const sf::Font& font, const Attributes& attributes)
+		: Text(position, text, characterSize, font)
+	{
+		setAttributes(attributes);
+	}
+
+	void Text::setAttributes(const Attributes& attributes)
+	{
+		setLetterSpacing(attributes.letterSpacing);
+		setLineSpacing(attributes.lineSpacing);
+		setStyle(attributes.style);
+		setFillColor(attributes.fillColor);
+		setOutlineColor(attributes.outlineColor);
+		setOutlineThickness(attributes.outlineThickness);
+		allowSnapping(attributes.snap);
+	}
+
 	void Text::allowSnapping(bool allowed)
 	{
 		snap = allowed;

@@ -18,7 +18,7 @@ namespace uie
 		Alignment horizontalAlignment = Left;
 		Alignment verticalAlignment = Top;
 		AlignmentAxis axis = Vertical;
-		float spacing = 20;
+		float spacing = 0;
 
 		void checkAlignment()
 		{
@@ -58,6 +58,14 @@ namespace uie
 		}
 
 	public:
+		struct Attributes
+		{
+			Alignment horizontalAlignment = Left;
+			Alignment verticalAlignment = Top;
+			AlignmentAxis axis = Vertical;
+			float spacing = 0;
+			RoundedRectangle::Attributes frameAttributes{ .cornerRadius = 0, .cornerPointCount = 2, .fillColor = sf::Color::Transparent };
+		};
 
 		/*------------------------------*/
 		/*          Functional          */
@@ -72,8 +80,20 @@ namespace uie
 			frame.makeRectangle();
 		}
 
+		LineLayout(const sf::Vector2f& position, const sf::Vector2f& size, const Attributes& attributes)
+			: LineLayout(position, size)
+		{
+			setAttributes(attributes);
+		}
+
 		LineLayout(const sf::FloatRect& rect)
-			: LineLayout({ rect.left, rect.top }, { rect.width, rect.height })
+			: LineLayout(rect.getPosition(), rect.getSize())
+		{
+
+		}
+
+		LineLayout(const sf::FloatRect& rect, const Attributes& attributes)
+			: LineLayout(rect.getPosition(), rect.getSize(), attributes)
 		{
 
 		}
@@ -82,13 +102,35 @@ namespace uie
 			: LineLayout(position, size)
 		{
 			this->elements = elements;
-			correctContentPosition();
+			correctContentPosition(true);
+		}
+
+		LineLayout(const sf::Vector2f& position, const sf::Vector2f& size, const Attributes& attributes, const std::vector<T>& elements)
+			: LineLayout(position, size, attributes)
+		{
+			this->elements = elements;
+			correctContentPosition(true);
 		}
 
 		LineLayout(const sf::FloatRect& rect, const std::vector<T>& elements)
-			: LineLayout({ rect.left, rect.top }, { rect.width, rect.height }, elements)
+			: LineLayout(rect.getPosition(), rect.getSize(), elements)
 		{
 
+		}
+
+		LineLayout(const sf::FloatRect& rect, const Attributes& attributes, const std::vector<T>& elements)
+			: LineLayout(rect.getPosition(), rect.getSize(), attributes, elements)
+		{
+
+		}
+
+		void setAttributes(const Attributes& attributes)
+		{
+			horizontalAlignment = attributes.horizontalAlignment;
+			verticalAlignment = attributes.verticalAlignment;
+			axis = attributes.axis;
+			spacing = attributes.spacing;
+			frame.setAttributes(attributes.frameAttributes);
 		}
 
 		RoundedRectangle& getFrame()
@@ -123,7 +165,13 @@ namespace uie
 		void addElement(const T& element)
 		{
 			elements.push_back(element);
-			correctContentPosition();
+			correctContentPosition(true);
+		}
+
+		void addElements(const std::vector<T>& elements)
+		{
+			this->elements.insert(this->elements.end(), elements.begin(), elements.end());
+			correctContentPosition(true);
 		}
 
 		void removeElement(unsigned int idx)
@@ -132,7 +180,7 @@ namespace uie
 				throw std::out_of_range("Index out of range");
 
 			elements.erase(elements.begin() + idx);
-			correctContentPosition();
+			correctContentPosition(true);
 		}
 
 		/*------------------------------*/
@@ -168,7 +216,7 @@ namespace uie
 		void setSize(const sf::Vector2f& size) override
 		{
 			frame.setSize(size);
-			correctContentPosition();
+			correctContentPosition(true);
 		}
 
 		void move(const sf::Vector2f& offset) override
@@ -242,7 +290,7 @@ namespace uie
 		void setElementSpacing(float spacing)
 		{
 			this->spacing = spacing;
-			correctContentPosition();
+			correctContentPosition(true);
 		}
 
 		void updateSize(bool allowShrink = false)
@@ -282,7 +330,7 @@ namespace uie
 			if ((totalSize.y > size.y) || (totalSize.y < size.y && allowShrink))
 				size.y = totalSize.y;
 
-			setSize(size);
+			frame.setSize(size);
 		}
 
 		void correctContentPosition(bool updateFrameSize = false, bool allowShrink = false)

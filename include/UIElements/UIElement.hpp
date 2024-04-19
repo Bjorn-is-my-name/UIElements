@@ -14,6 +14,8 @@ namespace uie
 {
 	/**
 	 * @brief Specialized interface for all the ui-element classes
+	 * 
+	 * @see sf::Drawable
 	 */
 	class UIElement : public sf::Drawable
 	{
@@ -123,6 +125,8 @@ namespace uie
 		 *
 		 * @param[in] target Render target to draw to
 		 * @param[in] states Current render states
+		 * 
+		 * @see sf::Drawable
 		 */
 		virtual void draw(sf::RenderTarget& target, sf::RenderStates states) const = 0;
 	};
@@ -144,3 +148,106 @@ namespace uie
 	template <typename T>
 	concept ImplementsUIElement = std::is_base_of_v<UIElement, std::remove_pointer_t<T>>;
 } // namespace uie
+
+/**
+ * @class uie::UIElement
+ * 
+ * @details 
+ * uie::UIElement is a simple interface which can be inherited from
+ * to give a class the necessary methods to become a ui-element
+ * 
+ * All you have to do in your derived class is make an implementation
+ * for each method signature
+ * 
+ * Note that inheriting from UIElement is mandatory if you want
+ * your class to work with the other ui-elements
+ * 
+ * Usage Example:
+ * \code
+ * class MyUIElement : public UIElement
+ * {
+ * private:
+ *     sf::RectangleShape frame;
+ *     sf::Font font;
+ *     sf::Text text;
+ * 
+ * public:
+ *	 	MyUIElement(const sf::FloatRect& posAndSize)
+ *		{
+ *			frame.setPosition(posAndSize.getPosition());
+ *			frame.setSize(posAndSize.getSize());
+ *			frame.setFillColor(sf::Color::White);
+ *			frame.setOutlineColor(sf::Color::Black);
+ *			frame.setOutlineThickness(1);
+ * 
+ *			font.loadFromFile(R"(resource\arial.ttf)");
+ *	
+ *			text.setString("Look, it's a rectangle!");
+ *			text.setCharacterSize(20);
+ *			text.setFont(font);
+ *			text.setFillColor(sf::Color::Black);
+ *	
+ *			text.setPosition({
+ *				posAndSize.left + posAndSize.width / 2 - (text.getGlobalBounds().width - text.getLocalBounds().left) / 2,
+ *				posAndSize.top - 30
+ *			});
+ *		}
+ *
+ *		sf::FloatRect getLocalBounds() const
+ *		{
+ *			return frame.getLocalBounds();
+ *		}
+ *
+ *		sf::FloatRect getGlobalBounds() const
+ *		{
+ *			return frame.getGlobalBounds();
+ *		}
+ *
+ *		sf::Vector2f getPosition() const
+ *		{
+ *			return frame.getPosition();
+ *		}
+ *
+ *		void setPosition(const sf::Vector2f& position)
+ *		{
+ *			frame.setPosition(position);
+ *          text.setPosition({
+ *				position.x + getSize().x / 2 - (text.getGlobalBounds().width - text.getLocalBounds().left) / 2,
+ *				position.y - 30
+ *			});
+ *		}
+ *
+ *		sf::Vector2f getSize() const
+ *		{
+ *			return frame.getSize();
+ *		}
+ *
+ *		void setSize(const sf::Vector2f& size)
+ *		{
+ *			frame.setSize(size);
+ *		}
+ *
+ *		void move(const sf::Vector2f& offset)
+ *		{
+ *			frame.move(offset);
+ *			text.move(offset);
+ *		}
+ *
+ *		bool intersects(const sf::Vector2f& point) const
+ *		{
+ *			return getGlobalBounds().intersects({ point, { 1, 1 } });
+ *		}
+ *
+ *		bool intersects(const sf::FloatRect& rect) const
+ *		{
+ *			return getGlobalBounds().intersects(rect);
+ *		}
+ *
+ *		void draw(sf::RenderTarget& target, sf::RenderStates states) const
+ *		{
+ *			target.draw(frame, states);
+ *			target.draw(text, states);
+ *		}
+ * };
+ * \endcode
+ */

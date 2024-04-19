@@ -8,32 +8,20 @@ void App::start()
 
 	font.loadFromFile("resource\\arial.ttf");
 
-	/*
-	r = RoundedRectangle({ 0, 0, 50, 50 });
-	r.setFillColor(sf::Color::Cyan);
-	r.setOutlineColor(sf::Color::Black);
-	r.setOutlineThickness(1);
+	r = RoundedRectangle({ 0, 0, 50, 50 }, { .fillColor = sf::Color::Cyan, .outlineThickness = 1});
 
 	r2 = RoundedRectangle(r);
 	r2.setFillColor(sf::Color::Yellow);
 
-	t = Text({ 0, 0 }, "Hello World!", 30, font);
+	t = Text({ 0, 0 }, "Hello World!", 30, font, { .style = sf::Text::Italic | sf::Text::Underlined });
 
 	b = Button({ 0, 0, 200, 100 }, "I'm a button", 30, font);
 
 	cb = Checkbox({ 0, 0, 50, 50 }, "Check me!", 20, font);
 
-	c = Container({ 0, 0, 200, 200 }, Text(t));
-	c.getContainer().setOutlineColor(sf::Color::Black);
-	c.getContainer().setOutlineThickness(1);
+	c = Container({ 0, 0, 200, 200 }, { .containerAttributes = { .outlineThickness = 1 } }, Text(t));
 
-	l = LineLayout({ 100, 100, 1720, 880 }, { &r, &t, &b, &cb, &c, &r2 });
-	l.setElementSpacing(20);
-	l.getFrame().setOutlineColor(sf::Color::Black);
-	l.getFrame().setOutlineThickness(1);
-	*/
-
-	btn = Button({ 100, 100, 200, 100 }, "I'm a button", 30, font);
+	l = LineLayout({ 100, 100, 1720, 880 }, { .spacing = 20, .frameAttributes = { .outlineThickness = 1 } }, { &r, &t, &b, &cb, &c, &r2 });
 
 	run();
 }
@@ -67,8 +55,6 @@ void App::handleEvents()
 			case sf::Keyboard::Escape:
 				quit();
 				break;
-			
-			/*
 			case sf::Keyboard::Space:
 				l.setHorizontalContentAlignment(Left);
 				l.setVerticalContentAlignment(Top);
@@ -98,8 +84,6 @@ void App::handleEvents()
 				else if (l.getAlignmentAxis() & Vertical)
 					l.setVerticalContentAlignment(Stretch);
 				break;
-			*/
-
 			default:
 				break;
 			}
@@ -119,7 +103,6 @@ void App::draw()
 {
 	window.clear(sf::Color::White);
 
-	/*
 	window.draw(l);
 
 	sf::RectangleShape r1({ 1, 880 });
@@ -131,9 +114,6 @@ void App::draw()
 	r2.setPosition({ 100, 540 });
 	r2.setFillColor(sf::Color::Red);
 	window.draw(r2);
-	*/
-
-	window.draw(btn);
 
 	window.display();
 }

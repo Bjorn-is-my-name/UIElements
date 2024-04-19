@@ -29,6 +29,20 @@ namespace uie
 
 	public:
 		/**
+		 * @brief Structure for additional attributes
+		 */
+		struct Attributes
+		{
+			float letterSpacing = 1.0f;
+			float lineSpacing = 1.0f;
+			unsigned int style = sf::Text::Regular;
+			const sf::Color& fillColor = sf::Color::Black;
+			const sf::Color& outlineColor = sf::Color::Black;
+			float outlineThickness = 0.0f;
+			bool snap = true;
+		};
+
+		/**
 		 * @brief The default constructor
 		 * 
 		 * @see Text
@@ -48,7 +62,34 @@ namespace uie
 		 * @see Text
 		 */
 		Text(const sf::Vector2f& position, const sf::String& text, unsigned int characterSize, const sf::Font& font);
+
+		/**
+		 * @brief Overloaded constructor
+		 *
+		 * @details
+		 * Create the text at the given position
+		 * Set all the specified attributes
+		 * 
+		 * @param[in] position      The position of the text
+		 * @param[in] text          The string text to be displayed
+		 * @param[in] characterSize The size of the characters
+		 * @param[in] font          The font of the text
+		 * @param[in] attributes    The additional attributes to set
+		 *
+		 * @see Text, Attributes, setAttributes
+		 */
+		Text(const sf::Vector2f& position, const sf::String& text, unsigned int characterSize, const sf::Font& font, const Attributes& attributes);
 		
+		/**
+		 * @brief Set all the specified attributes
+		 * 
+		 * @param[in] attributes The attributes
+		 * 
+		 * @see Attributes, setString, setFont, setCharacterSize, setLetterSpacing, setLineSpacing, 
+		 * setStyle, setFillColor, setOutlineColor, setOutlineThickness, allowSnapping
+		 */
+		void setAttributes(const Attributes& attributes);
+
 		/**
 		 * @brief Allow snapping to pixels
 		 * 
@@ -397,3 +438,39 @@ namespace uie
 		void setOutlineThickness(float thickness);
 	};
 } // namespace uie
+
+/**
+ * @class uie::Text
+ * 
+ * Usage Example:
+ * \code
+ * sf::Font font;
+ * ...
+ * uie::Text txt(sf::Vector2f{ 100, 100 }, "Hello World!", 30, font);
+ * txt.setFillColor(sf::Color::Black);
+ * txt.setStyle(sf::Text::Italic);
+ * txt.setLetterSpacing(0.5f);
+ * ...
+ * window.draw(txt);
+ * \endcode
+ * 
+ * Usage Example with TAttr:
+ * \code
+ * sf::Font font;
+ * ...
+ * 	uie::Text txt(
+ *		sf::Vector2f{ 100, 100 },
+ *		"Hello World!",
+ *		30,
+ *		font,
+ *		TAttr{
+ *			.letterSpacing = 0.5f,
+ *			.style = sf::Text::Italic,
+ *			.fillColor = sf::Color::Black,
+ *          ...
+ *		}
+ *	);
+ * ...
+ * window.draw(txt);
+ * \endcode
+ */

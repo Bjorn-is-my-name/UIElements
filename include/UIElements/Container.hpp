@@ -20,7 +20,7 @@ namespace uie
 		sf::Vector2f drawPosition;
 		sf::Vector2f drawSize;
 		Alignment alignment = Center;
-		bool blendWithOutline = false;
+		bool overlapOutline = false;
 
 		bool checkAlignment()
 		{
@@ -31,6 +31,12 @@ namespace uie
 		}
 
 	public:
+		struct Attributes
+		{
+			Alignment contentAlignment = Center;
+			bool overlapOutline = false;
+			RoundedRectangle::Attributes containerAttributes{ .cornerRadius = 0, .cornerPointCount = 2, .fillColor = sf::Color::Transparent };
+		};
 
 		/*------------------------------*/
 		/*          Functional          */
@@ -45,8 +51,20 @@ namespace uie
 			container.makeRectangle();
 		}
 
+		Container(const sf::Vector2f& position, const sf::Vector2f& size, const Attributes& attributes)
+			: Container(position, size)
+		{
+			setAttributes(attributes);
+		}
+
 		Container(const sf::FloatRect& rect)
 			: Container(rect.getPosition(), rect.getSize())
+		{
+
+		}
+
+		Container(const sf::FloatRect& rect, const Attributes& attributes)
+			: Container(rect.getPosition(), rect.getSize(), attributes)
 		{
 
 		}
@@ -58,10 +76,30 @@ namespace uie
 			correctContentPosition();
 		}
 
+		Container(const sf::Vector2f& position, const sf::Vector2f& size, const Attributes& attributes, const T& content)
+			: Container(position, size, attributes)
+		{
+			this->content = content;
+			correctContentPosition();
+		}
+
 		Container(const sf::FloatRect& rect, const T& content)
 			: Container(rect.getPosition(), rect.getSize(), content)
 		{
 
+		}
+
+		Container(const sf::FloatRect& rect, const Attributes& attributes, const T& content)
+			: Container(rect.getPosition(), rect.getSize(), attributes, content)
+		{
+
+		}
+
+		void setAttributes(const Attributes& attributes)
+		{
+			alignment = attributes.contentAlignment;
+			overlapOutline = attributes.overlapOutline;
+			container.setAttributes(attributes.containerAttributes);
 		}
 
 		RoundedRectangle& const getContainer()
@@ -159,14 +197,15 @@ namespace uie
 			correctContentPosition();
 		}
 
-		bool isBlendingWithOutline() const
+		bool isContentOverlappingOutline() const
 		{
-			return blendWithOutline;
+			return overlapOutline;
 		}
 
-		void BlendWithOutline(bool blend = true)
+		void contentOverlapsOutline(bool overlap = true)
 		{
-			blendWithOutline = blend;
+			overlapOutline = overlap;
+			correctContentPosition();
 		}
 
 		void correctContentPosition()
@@ -184,7 +223,7 @@ namespace uie
 			}
 
 			sf::FloatRect containerBounds = container.getGlobalBounds();
-			float containerOutlineThickness = blendWithOutline ? 0 : container.getOutlineThickness();
+			float containerOutlineThickness = overlapOutline ? 0 : container.getOutlineThickness();
 
 			drawSize = originalSize;
 
@@ -234,8 +273,8 @@ namespace uie
 			// May not really work that well anymore
 			if ((alignment & Stretch) != 0)
 			{
-				drawPosition = blendWithOutline ? containerBounds.getPosition() : getPosition();
-				drawSize = blendWithOutline ? containerBounds.getSize() : getSize();
+				drawPosition = overlapOutline ? containerBounds.getPosition() : getPosition();
+				drawSize = overlapOutline ? containerBounds.getSize() : getSize();
 			}
 
 			Any pContent = ptr(content);

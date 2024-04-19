@@ -26,10 +26,35 @@ namespace uie
 		correctTextPosition();
 	}
 
+	Checkbox::Checkbox(const sf::Vector2f& position, const sf::Vector2f& size, const sf::String& txt, unsigned int characterSize, const sf::Font& font, const Attributes& attributes)
+		: Checkbox(position, size)
+	{
+		text = Text(position, txt, characterSize, font);
+		setAttributes(attributes);
+		correctTextPosition();
+	}
+
 	Checkbox::Checkbox(const sf::FloatRect& rect, const sf::String& txt, unsigned int characterSize, const sf::Font& font)
 		: Checkbox(rect.getPosition(), rect.getSize(), txt, characterSize, font)
 	{
 
+	}
+
+	Checkbox::Checkbox(const sf::FloatRect& rect, const sf::String& txt, unsigned int characterSize, const sf::Font& font, const Attributes& attributes)
+		: Checkbox(rect.getPosition(), rect.getSize(), txt, characterSize, font, attributes)
+	{
+
+	}
+
+	void Checkbox::setAttributes(const Attributes& attributes)
+	{
+		attributes.selected ? select() : deselect();
+		setSelectedColor(attributes.selectedColor);
+		setDeselectedColor(attributes.deselectedColor);
+		alignment = attributes.textAlignment;
+		textDistance = attributes.textDistance;
+		rectangle.setAttributes(attributes.rectangleAttributes);
+		text.setAttributes(attributes.textAttributes);
 	}
 
 	void Checkbox::checkAlignment()

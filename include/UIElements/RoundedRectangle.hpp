@@ -24,9 +24,23 @@ namespace uie
 	class RoundedRectangle : public UIElement
 	{
 	private:
-		sf::RoundedRectangleShape rectangle;	// The rectangle shape
+		sf::RoundedRectangleShape rectangle;    // The rectangle shape
 
 	public:
+		/**
+		 * @brief Structure for additional attributes
+		 */
+		struct Attributes
+		{
+			float cornerRadius = 5.0f;
+			unsigned int cornerPointCount = 20;
+			const sf::Texture* texture = nullptr;
+			const sf::IntRect& textureRect = sf::IntRect();
+			const sf::Color& fillColor = sf::Color::White;
+			const sf::Color& outlineColor = sf::Color::Black;
+			float outlineThickness = 0.0f;
+		};
+
 		/**
 		 * @brief Default constructor
 		 * 
@@ -49,13 +63,52 @@ namespace uie
 		/**
 		 * @brief Overloaded constructor
 		 *
+		 * @details 
+		 * Create the rounded rectangle at the given position with the given size
+		 * Set all the specified attributes
+		 * 
+		 * @param[in] position   The position of the rectangle
+		 * @param[in] size       The size of the rectangle
+		 * @param[in] attributes The additional attributes to set
+		 *
+		 * @see RoundedRectangle, Attributes, setAttributes
+		 */
+		RoundedRectangle(const sf::Vector2f& position, const sf::Vector2f& size, const Attributes& attributes);
+
+		/**
+		 * @brief Overloaded constructor
+		 *
 		 * @details Create the rounded rectangle at the given position with the given size
 		 *
-		 * @param[in] rect The rectangle of which to creation the rounded rectangle
+		 * @param[in] rect The rectangle of which to create the rounded rectangle
 		 * 
 		 * @see RoundedRectangle
 		 */
 		RoundedRectangle(const sf::FloatRect& rect);
+
+		/**
+		 * @brief Overloaded constructor
+		 *
+		 * @details
+		 * Create the rounded rectangle at the given position with the given size
+		 * Set all the specified attributes
+		 *
+		 * @param[in] rect       The rectangle of which to create the rounded rectangle
+		 * @param[in] attributes The additional attributes to set
+		 *
+		 * @see RoundedRectangle, Attributes, setAttributes
+		 */
+		RoundedRectangle(const sf::FloatRect& rect, const Attributes& attributes);
+
+		/**
+		 * @brief Set all the specified attributes
+		 * 
+		 * @param[in] attributes The attributes
+		 * 
+		 * @see Attributes, setCornerRadius, setCornerPointCount, setTexture, 
+		 * setFillColor, setOutlineColor, setOutlineThickness
+		 */
+		void setAttributes(const Attributes& attributes);
 
 		/**
 		 * @brief Get the local boundaries
@@ -316,8 +369,49 @@ namespace uie
 		/**
 		 * @brief Removes the rounded corners
 		 * 
+		 * @details
+		 * Set the corner pointcount to 2 and set the radius to 0
+		 * If an outline is set, make it negative (inside border) to
+		 * prevent getting shaved corners instead of a clean corner
+		 * 
+		 * In case a rectangle with outside border is still desired, the
+		 * corner pointcount and radius will have to be adjusted manually
+		 * 
 		 * @see setCornersRadius, setCornerPointCount
 		 */
 		void makeRectangle();
 	};
 } // namespace uie
+
+/**
+ * @class uie::RoundedRectangle
+ * 
+ * Usage Example:
+ * \code
+ * uie::RoundedRectangle rect(sf::FloatRect{ 100, 100, 200, 80 });
+ * rectangle.setCornersRadius(5);
+ * rectangle.setCornerPointCount(20);
+ * rect.setFillColor(sf::Color::White);
+ * rect.setOutlineThickness(1);
+ * rect.setOutlineColor(sf::Color::Black);
+ * ...
+ * window.draw(rect);
+ * \endcode
+ * 
+ * Usage Example with RRAttr:
+ * \code
+ * 	uie::RoundedRectangle rect(
+ *		sf::FloatRect{ 100, 100, 200, 80 },
+ *		RRAttr{
+ *			.cornerRadius = 5,
+ *			.cornerPointCount = 20,
+ *			.fillColor = sf::Color::White,
+ *			.outlineColor = sf::Color::Black,
+ *			.outlineThickness = 1,
+ *          ...
+ *		}
+ *	);
+ *  ...
+ * window.draw(rect);
+ * \endcode
+ */
