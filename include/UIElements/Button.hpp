@@ -47,9 +47,9 @@ namespace uie
 		 */
 		struct Attributes
 		{
-			const std::function<void()>& onClick;
+			const std::function<void()>& onClick = [](){};
 			const RoundedRectangle::Attributes& rectangleAttributes{ .outlineThickness = 1.0f };
-			const Text::Attributes& textAttributes;
+			const Text::Attributes& textAttributes{};
 		};
 
 		/**

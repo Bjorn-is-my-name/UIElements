@@ -30,7 +30,7 @@ namespace uie
 			Alignment textAlignment = Left;
 			unsigned int textDistance = 20;
 			const RoundedRectangle::Attributes& rectangleAttributes{ .fillColor = deselectedColor, .outlineThickness = 1.0f };
-			const Text::Attributes& textAttributes;
+			const Text::Attributes& textAttributes{};
 		};
 
 		/*------------------------------*/
