@@ -36,8 +36,8 @@ namespace uie
 			float letterSpacing = 1.0f;
 			float lineSpacing = 1.0f;
 			unsigned int style = sf::Text::Regular;
-			const sf::Color& fillColor = sf::Color::Black;
-			const sf::Color& outlineColor = sf::Color::Black;
+			sf::Color fillColor = sf::Color::Black;
+			sf::Color outlineColor = sf::Color::Black;
 			float outlineThickness = 0.0f;
 			bool snap = true;
 		};

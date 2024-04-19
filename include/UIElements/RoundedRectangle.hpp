@@ -34,10 +34,10 @@ namespace uie
 		{
 			float cornerRadius = 5.0f;
 			unsigned int cornerPointCount = 20;
-			const sf::Texture* texture = nullptr;
-			const sf::IntRect& textureRect = sf::IntRect();
-			const sf::Color& fillColor = sf::Color::White;
-			const sf::Color& outlineColor = sf::Color::Black;
+			sf::Texture* texture = nullptr;
+			sf::IntRect textureRect = sf::IntRect();
+			sf::Color fillColor = sf::Color::White;
+			sf::Color outlineColor = sf::Color::Black;
 			float outlineThickness = 0.0f;
 		};
 

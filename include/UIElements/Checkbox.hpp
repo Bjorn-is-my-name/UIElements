@@ -25,12 +25,12 @@ namespace uie
 		struct Attributes
 		{
 			bool selected = false;
-			const sf::Color& selectedColor = sf::Color(0, 160, 255);
-			const sf::Color& deselectedColor = sf::Color::Transparent;
+			sf::Color selectedColor = sf::Color(0, 160, 255);
+			sf::Color deselectedColor = sf::Color::Transparent;
 			Alignment textAlignment = Left;
 			unsigned int textDistance = 20;
-			const RoundedRectangle::Attributes& rectangleAttributes{ .fillColor = deselectedColor, .outlineThickness = 1.0f };
-			const Text::Attributes& textAttributes{};
+			RoundedRectangle::Attributes rectangleAttributes{ .fillColor = deselectedColor, .outlineThickness = 1.0f };
+			Text::Attributes textAttributes{};
 		};
 
 		/*------------------------------*/
