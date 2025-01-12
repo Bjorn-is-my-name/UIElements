@@ -382,36 +382,3 @@ namespace uie
 		void makeRectangle();
 	};
 } // namespace uie
-
-/**
- * @class uie::RoundedRectangle
- * 
- * Usage Example:
- * \code
- * uie::RoundedRectangle rect(sf::FloatRect{ 100, 100, 200, 80 });
- * rectangle.setCornersRadius(5);
- * rectangle.setCornerPointCount(20);
- * rect.setFillColor(sf::Color::White);
- * rect.setOutlineThickness(1);
- * rect.setOutlineColor(sf::Color::Black);
- * ...
- * window.draw(rect);
- * \endcode
- * 
- * Usage Example with RRAttr:
- * \code
- * 	uie::RoundedRectangle rect(
- *		sf::FloatRect{ 100, 100, 200, 80 },
- *		RRAttr{
- *			.cornerRadius = 5,
- *			.cornerPointCount = 20,
- *			.fillColor = sf::Color::White,
- *			.outlineColor = sf::Color::Black,
- *			.outlineThickness = 1,
- *          ...
- *		}
- *	);
- *  ...
- * window.draw(rect);
- * \endcode
- */

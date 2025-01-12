@@ -76,7 +76,7 @@ namespace uie
 		 * 
 		 * @details Create the button at the given position with the given size
 		 * 
-		 * @param[in] rect The rectangle of which to create the rounded rectangle
+		 * @param[in] rect The rectangle of which to create the button
 		 * 
 		 * @see Button
 		 */
@@ -125,7 +125,7 @@ namespace uie
 		 * Create the button at the given position with the given size
 		 * Create the text inside the button and center it
 		 *
-		 * @param[in] rect          The rectangle of which to create the rounded rectangle
+		 * @param[in] rect          The rectangle of which to create the button
 		 * @param[in] text          The string text to be displayed
 		 * @param[in] characterSize The size of the characters
 		 * @param[in] font          The font of the text
@@ -142,7 +142,7 @@ namespace uie
 		 * Create the text inside the button and center it
 		 * Set all the specified attributes
 		 *
-		 * @param[in] rect          The rectangle of which to create the rounded rectangle
+		 * @param[in] rect          The rectangle of which to create the button
 		 * @param[in] text          The string text to be displayed
 		 * @param[in] characterSize The size of the characters
 		 * @param[in] font          The font of the text

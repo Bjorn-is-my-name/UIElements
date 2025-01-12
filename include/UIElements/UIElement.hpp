@@ -163,7 +163,7 @@ namespace uie
  * your class to work with the other ui-elements
  * 
  * Usage Example:
- * \code
+ * @code
  * class MyUIElement : public UIElement
  * {
  * private:
@@ -249,5 +249,5 @@ namespace uie
  *			target.draw(text, states);
  *		}
  * };
- * \endcode
+ * @endcode
  */

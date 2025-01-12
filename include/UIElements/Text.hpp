@@ -438,39 +438,3 @@ namespace uie
 		void setOutlineThickness(float thickness);
 	};
 } // namespace uie
-
-/**
- * @class uie::Text
- * 
- * Usage Example:
- * \code
- * sf::Font font;
- * ...
- * uie::Text txt(sf::Vector2f{ 100, 100 }, "Hello World!", 30, font);
- * txt.setFillColor(sf::Color::Black);
- * txt.setStyle(sf::Text::Italic);
- * txt.setLetterSpacing(0.5f);
- * ...
- * window.draw(txt);
- * \endcode
- * 
- * Usage Example with TAttr:
- * \code
- * sf::Font font;
- * ...
- * 	uie::Text txt(
- *		sf::Vector2f{ 100, 100 },
- *		"Hello World!",
- *		30,
- *		font,
- *		TAttr{
- *			.letterSpacing = 0.5f,
- *			.style = sf::Text::Italic,
- *			.fillColor = sf::Color::Black,
- *          ...
- *		}
- *	);
- * ...
- * window.draw(txt);
- * \endcode
- */
